@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserServices {
-  String baseUrl = "https://auth-server-gzkg.onrender.com";
+  String baseUrl = "https://noticebord.onrender.com";
 
   void login({
     required BuildContext ctx,
