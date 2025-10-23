@@ -12,7 +12,7 @@ export const protect = async (req, res, next) => {
 
     //   console.log(token);
 
-      const decodedToken = jwt.verify(token, "usermg123456");
+      const decodedToken = jwt.verify(token, "secretkey");
 
       req.user = await User.findById(decodedToken.id);
 
