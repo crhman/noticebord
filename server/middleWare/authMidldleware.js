@@ -10,11 +10,12 @@ export const protect = async (req, res, next) => {
     ) {
       token = req.headers.authorization.split(" ")[1];
 
-    //   console.log(token);
-
-      const decodedToken = jwt.verify(token, "secretkey");
-
-      req.user = await User.findById(decodedToken.id);
+      
+      console.log(token);
+      const decodedToken = jwt.verify(token, "secretKey");
+      console.log(decodedToken);
+    
+     req.user = await User.findById(decodedToken.id);
 
       if (!req.user) {
         return res.status(404).json({ message: "User not found" });
