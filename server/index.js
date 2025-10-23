@@ -6,7 +6,9 @@ const app = express()
 
 dotenv.config()
 
-app.use('/api/', userRoutes);
+
+app.use(express.json())
+app.use('/api', userRoutes);
 
 
 app.listen(process.env.PORT, async () => {

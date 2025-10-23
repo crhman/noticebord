@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:norticeboard/presentation/auth/screens/login_screen.dart';
-import 'package:norticeboard/services/user_services.dart';
+import 'package:norticeboard/presentation/auth/services/user_services.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

@@ -1,0 +1,7 @@
+{
+    "dart.sdkPath": "/Users/abdirahmanmohamed/flutter/bin/cache/dart-sdk",
+    "dart.flutterSdkPath": "/Users/abdirahmanmohamed/flutter",
+    "dart.analysisExcludedFolders": [
+        "build"
+    ]
+}
