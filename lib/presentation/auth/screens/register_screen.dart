@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:norticeboard/presentation/auth/screens/login_screen.dart';
+import 'package:norticeboard/services/user_services.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -9,25 +11,43 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  final usernameController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isUserCreated = false;
+  String error = "";
   bool isLoading = false;
   bool isPasswordVisible = false;
 
   void register() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => isLoading = true);
+    if (!_formKey.currentState!.validate()) {
+      print("Missing important information are missing");
+    }
 
-      await Future.delayed(const Duration(seconds: 2));
+    setState(() {
+      isLoading = true;
+    });
 
-      setState(() => isLoading = false);
+    isUserCreated = await UserServices().register(
+      name: nameController.text,
+      email: emailController.text,
+      phone: phoneController.text,
+      password: passwordController.text,
+    );
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text("Account Created 🎉")));
-
-      Navigator.pop(context);
+    if (isUserCreated) {
+      isLoading = false;
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => LoginScreen()),
+        (route) => false,
+      );
+      setState(() {});
+    } else {
+      isLoading = false;
+      isUserCreated = false;
+      error = "user not created";
+      setState(() {});
     }
   }
 
@@ -62,12 +82,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // USERNAME
+                // name
                 TextFormField(
-                  controller: usernameController,
+                  controller: nameController,
                   decoration: InputDecoration(
                     // labelText: 'Username',
-                    hintText: 'username',
+                    hintText: 'name',
                     filled: true,
                     fillColor: const Color.fromARGB(235, 237, 238, 238),
 
@@ -89,7 +109,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Username is required";
+                      return "name is required";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+
+                // pHONE
+                TextFormField(
+                  controller: phoneController,
+                  decoration: InputDecoration(
+                    // labelText: 'Username',
+                    hintText: 'phone',
+                    filled: true,
+                    fillColor: const Color.fromARGB(235, 237, 238, 238),
+
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: const BorderSide(
+                        color: Colors.white54,
+                        width: 1,
+                      ),
+                    ),
+
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 16,
+                    ),
+                    labelStyle: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "phone is required";
                     }
                     return null;
                   },

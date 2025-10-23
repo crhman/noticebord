@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:norticeboard/presentation/User/home/screens/home_sceen.dart';
+import 'package:norticeboard/services/user_services.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,23 +12,21 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool isLoading = false;
+  final UserServices _userServices = UserServices();
 
-  void login() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() => isLoading = true);
-
-      await Future.delayed(const Duration(seconds: 2));
-
-      setState(() => isLoading = false);
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
+  void login() {
+    if (!_formKey.currentState!.validate()) {
+      return print('missing field');
     }
+
+    _userServices.login(
+      ctx: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
   }
 
   @override
@@ -55,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 24),
                 TextFormField(
-                  controller: emailController,
+                  controller: _emailController,
                   decoration: InputDecoration(
                     // labelText: 'Email',
                     hintText: 'emial',
@@ -81,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 16),
                 TextFormField(
-                  controller: passwordController,
+                  controller: _passwordController,
                   obscureText: true,
 
                   decoration: InputDecoration(
