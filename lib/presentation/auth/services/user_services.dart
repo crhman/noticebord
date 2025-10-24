@@ -43,7 +43,7 @@ class UserServices {
           );
         } else {
           Navigator.of(ctx).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (_) => HomeScreen()),
+            MaterialPageRoute(builder: (_) => DashboardScreen()),
             (route) => false,
           );
         }

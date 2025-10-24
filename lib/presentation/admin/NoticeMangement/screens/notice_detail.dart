@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
-
+import 'package:norticeboard/model/notice_model.dart';
 import 'package:norticeboard/presentation/User/home/screens/home_sceen.dart';
 
 class NoticeDetailPage extends StatelessWidget {
-  const NoticeDetailPage({super.key});
+  final Notice notice; // 👈 Xogta notice-ka
+
+  const NoticeDetailPage({super.key, required this.notice});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(
-        255,
-        255,
-        255,
-        255,
-      ), // asalka muuqaalka
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0), // margin guud
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Back button
+              // Back Button
               Row(
                 children: [
                   TextButton.icon(
@@ -28,7 +25,7 @@ class NoticeDetailPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HomeScreen(),
+                          builder: (context) => DashboardScreen(),
                         ),
                       );
                     },
@@ -42,40 +39,28 @@ class NoticeDetailPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
 
-              // Notice Title
-              const Text(
-                "Notice Detail",
-                style: TextStyle(
-                  fontSize: 32,
+              // Title
+              Text(
+                notice.title,
+                style: const TextStyle(
+                  fontSize: 26,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 15),
-
-              // Meeting Title
-              const Text(
-                "Meeting Reminder",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
               ),
               const SizedBox(height: 8),
 
               // Date
-              const Text(
-                "May 1, 2024",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+              Text(
+                notice.createdAt.toLocal().toString().split(' ')[0],
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
-              const SizedBox(height: 80),
+              const SizedBox(height: 30),
 
-              // Box message
+              // Description box
               Center(
                 child: Container(
-                  width: 430,
-                  height: 240,
+                  width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -84,13 +69,12 @@ class NoticeDetailPage extends StatelessWidget {
                     ),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Text(
-                    "Don’t forget about the meeting at 10:00 AM.",
-                    style: TextStyle(fontSize: 20, color: Colors.black87),
+                  child: Text(
+                    notice.description,
+                    style: const TextStyle(fontSize: 18, color: Colors.black87),
                   ),
                 ),
               ),
-              SizedBox(height: 20),
             ],
           ),
         ),
