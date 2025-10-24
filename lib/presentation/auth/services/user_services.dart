@@ -18,7 +18,7 @@ class UserServices {
   }) async {
     try {
       final http.Response response = await http.post(
-        Uri.parse("$baseUrl/api/login"),
+        Uri.parse("$baseUrl/api/users/login"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"email": email, "password": password}),
       );

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:norticeboard/presentation/User/home/screens/home_sceen.dart';
 import 'package:norticeboard/presentation/auth/services/user_services.dart';
 import 'register_screen.dart';
 
