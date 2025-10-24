@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/screens/add_notice.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/screens/edit_notice.dart';
 
-class ManageNoticesPage extends StatelessWidget {
+class ManageNoticesPage extends StatefulWidget {
   const ManageNoticesPage({super.key});
 
+  @override
+  State<ManageNoticesPage> createState() => _ManageNoticesPageState();
+}
+
+class _ManageNoticesPageState extends State<ManageNoticesPage> {
   @override
   Widget build(BuildContext context) {
     // Sample notice data
