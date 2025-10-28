@@ -18,6 +18,8 @@ class _EditNoticePageState extends State<EditNoticePage> {
   
   bool get _isLoading => false;
 
+  
+
 
   @override
   Widget build(BuildContext context) {

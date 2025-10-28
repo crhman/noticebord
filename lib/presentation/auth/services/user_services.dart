@@ -27,10 +27,12 @@ class UserServices {
 
       if (response.statusCode == 200) {
         final role = jsonDecode(response.body)["data"]["role"];
+        final token = jsonDecode(response.body)["Token"];
         SharedPreferences pref = await SharedPreferences.getInstance();
 
         pref.setBool("isLoggedIn", true);
         pref.setString("role", role);
+        pref.setString("token", token);
 
         Map<String, dynamic> data = jsonDecode(response.body)["data"];
         String dataString = jsonEncode(data);

@@ -17,7 +17,6 @@ class Notice {
       id: json['_id'] ?? '',
       title: json['title'] ?? '',
       description: json['description'] ?? '',
-
       createdAt: DateTime.parse(json['createdAt']),
     );
   }
