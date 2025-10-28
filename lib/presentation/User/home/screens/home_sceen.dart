@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:norticeboard/model/notice_model.dart';
+import 'package:norticeboard/presentation/User/home/widgets/noticecard.dart';
+import 'package:norticeboard/presentation/User/profile/screens/profile_screen.dart';
+import 'package:norticeboard/presentation/admin/NoticeMangement/screens/add_notice.dart';
+import 'package:norticeboard/presentation/admin/NoticeMangement/screens/manage_notices.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/screens/notice_detail.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/services/notice_services.dart';
 
@@ -12,6 +16,13 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late Future<List<Notice>> _futureNotices;
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   void initState() {
@@ -19,8 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _futureNotices = NoticeService.getAllNotices();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildHome() {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -77,29 +87,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
-}
-
-class NoticeCard extends StatelessWidget {
-  final String title;
-  final String date;
-  final VoidCallback onTap;
-
-  const NoticeCard({
-    super.key,
-    required this.title,
-    required this.date,
-    required this.onTap,
-  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(date),
-        onTap: onTap,
+    Widget body;
+    if (_selectedIndex == 0) {
+      body = _buildHome();
+    } else {
+      body = ManageNoticesPage();
+    }
+
+    return Scaffold(
+      body: body,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+        ],
       ),
     );
   }

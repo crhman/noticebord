@@ -20,20 +20,16 @@ class NoticeDetailPage extends StatelessWidget {
               // Back Button
               Row(
                 children: [
-                  TextButton.icon(
+                  IconButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pop(
                         context,
                         MaterialPageRoute(
                           builder: (context) => DashboardScreen(),
                         ),
                       );
                     },
-                    icon: const Icon(Icons.arrow_back, color: Colors.blue),
-                    label: const Text(
-                      "Back",
-                      style: TextStyle(color: Colors.blue, fontSize: 16),
-                    ),
+                    icon: Icon(Icons.arrow_back_ios),
                   ),
                 ],
               ),
