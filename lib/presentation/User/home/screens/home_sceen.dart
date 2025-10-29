@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:norticeboard/presentation/User/home/screens/notices_screen.dart';
 import 'package:norticeboard/presentation/User/profile/screens/profile_screen.dart';
 
-import '../../../admin/NoticeMangement/screens/manage_notices.dart';
+// import '../../../admin/NoticeMangement/screens/manage_notices.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});

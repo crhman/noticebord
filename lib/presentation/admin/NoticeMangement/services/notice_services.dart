@@ -78,17 +78,16 @@ class NoticeService extends ChangeNotifier {
   }
 
   // ✅ Update notice by ID
-  static Future<Map<String, dynamic>> updateNotice(
-    String id,
-    String trim, {
+  Future<Map<String, dynamic>> updateNotice({
+    required String id,
     required String title,
     required String description,
-    String? token,
   }) async {
     final url = Uri.parse('$baseUrl/api/notices/$id');
+    String token = await getToken();
     final headers = {
       'Content-Type': 'application/json',
-      if (token != null) 'Authorization': 'Bearer $token',
+      if (token != "") 'Authorization': 'Bearer $token',
     };
 
     final body = jsonEncode({
