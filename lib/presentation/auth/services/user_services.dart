@@ -52,6 +52,10 @@ class UserServices {
 
         print(response.body);
       } else {
+        final message = jsonDecode(response.body)["message"];
+        ScaffoldMessenger.of(
+          ctx,
+        ).showSnackBar(SnackBar(content: Text("$message")));
         print(response.body);
       }
     } catch (e) {

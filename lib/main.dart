@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:norticeboard/presentation/User/home/screens/home_sceen.dart';
 import 'package:norticeboard/presentation/admin/AdminPage/screens/admin_page.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/services/notice_services.dart';
+import 'package:norticeboard/presentation/admin/UserManagement/services/user_management_ser.dart';
 import 'package:norticeboard/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +14,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => NoticeService()),
+        ChangeNotifierProvider(create: (_) => UserManagementService()),
       ],
       child: NoticeboardApp(),
     ),

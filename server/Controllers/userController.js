@@ -19,7 +19,7 @@ export const login = async (req,res) =>{
       if(userExists.password !== password){
         return res.status(401).json({
             success: false,
-            message: "Invalid "
+            message: "Invalid password"
         });
       }  
         res.status(200).json({

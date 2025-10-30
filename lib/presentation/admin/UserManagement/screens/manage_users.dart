@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:norticeboard/presentation/admin/UserManagement/Service/user_management_ser.dart';
+import 'package:norticeboard/presentation/admin/UserManagement/services/user_management_ser.dart';
 import 'package:norticeboard/presentation/admin/UserManagement/screens/add_user.dart';
 import 'package:norticeboard/presentation/admin/UserManagement/screens/edit_user.dart';
+import 'package:provider/provider.dart';
 // import 'package:norticeboard/presentation/admin/UserManagement/services/user_service.dart';
 
 class UserManagementPage extends StatefulWidget {
@@ -12,37 +13,18 @@ class UserManagementPage extends StatefulWidget {
 }
 
 class _UserManagementPageState extends State<UserManagementPage> {
-  late Future<List<dynamic>> _usersFuture;
-  final UserManagementService _userService = UserManagementService();
 
   @override
   void initState() {
     super.initState();
-    _usersFuture = _userService.fetchUsers();
   }
 
-  Future<void> _refreshUsers() async {
-    setState(() {
-      _usersFuture = _userService.fetchUsers();
-    });
-  }
 
-  // void _deleteUser(int id) async {
-  //   try {
-  //     await _userService.deleteUser(id);
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('User deleted successfully')),
-  //     );
-  //     _refreshUsers();
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(
-  //       context,
-  //     ).showSnackBar(SnackBar(content: Text('Failed to delete user: $e')));
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
+     var usersList = context.watch<UserManagementService>().usersList;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -54,25 +36,11 @@ class _UserManagementPageState extends State<UserManagementPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: FutureBuilder<List<dynamic>>(
-        future: _usersFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No users found.'));
-          }
-
-          final users = snapshot.data!;
-          return RefreshIndicator(
-            onRefresh: _refreshUsers,
-            child: ListView.builder(
+      body: context.watch<UserManagementService>().isLoading ? Center(child: CircularProgressIndicator(),) : ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: users.length,
+              itemCount: usersList.length,
               itemBuilder: (context, index) {
-                final user = users[index];
+                final user = usersList[index];
 
                 return Card(
                   margin: const EdgeInsets.only(bottom: 16),
@@ -86,7 +54,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          user['name'] ?? '',
+                          user.name,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -94,12 +62,12 @@ class _UserManagementPageState extends State<UserManagementPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          user['email'] ?? '',
+                          user.email,
                           style: TextStyle(color: Colors.grey[600]),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "Role: ${user['role'] ?? 'N/A'}",
+                          "Role: ${user.role}",
                           style: const TextStyle(fontSize: 14),
                         ),
                         const SizedBox(height: 12),
@@ -140,9 +108,6 @@ class _UserManagementPageState extends State<UserManagementPage> {
                 );
               },
             ),
-          );
-        },
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
