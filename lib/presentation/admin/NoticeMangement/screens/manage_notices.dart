@@ -16,7 +16,6 @@ class _ManageNoticesPageState extends State<ManageNoticesPage> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   @override

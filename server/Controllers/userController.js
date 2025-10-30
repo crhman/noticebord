@@ -38,7 +38,21 @@ export const login = async (req,res) =>{
     }
 }
 
-
+export const getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.status(200).json({      
+            success: true,
+            data: users,
+            message: "Users retrieved successfully"
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false, 
+            message: "Server error"
+        });
+    }
+}
 
 
 export const createUser = async (req,res)=>{

@@ -1,5 +1,5 @@
 import express from "express";
-import { createUser,  deleteUser,  updateUser } from "../Controllers/userController.js";
+import { createUser,  deleteUser,  getAllUsers,  updateUser } from "../Controllers/userController.js";
 import { login } from "../Controllers/userController.js";
 import { admin, protect } from "../middleWare/authMidldleware.js";
 
@@ -7,6 +7,7 @@ import { admin, protect } from "../middleWare/authMidldleware.js";
 const router = express.Router();
 
 router.route("/create-user").post(createUser);
+router.route("/get_all-users").get(getAllUsers);
 router.route("/login").post(login);
 router.route("/delete-user/:id").delete(protect, deleteUser);
 router.route("/update-user/:id").put(protect, admin, updateUser);
