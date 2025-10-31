@@ -78,29 +78,33 @@ class NoticeService extends ChangeNotifier {
   }
 
   // ✅ Update notice by ID
-  Future<Map<String, dynamic>> updateNotice({
+  Future<void> updateNotice({
     required String id,
     required String title,
     required String description,
   }) async {
-    final url = Uri.parse('$baseUrl/api/notices/$id');
-    String token = await getToken();
-    final headers = {
-      'Content-Type': 'application/json',
-      if (token != "") 'Authorization': 'Bearer $token',
-    };
-    getAllNotices();
-    final body = jsonEncode({
-      'title': title.trim(),
-      'description': description.trim(),
-    });
+    try {
+      final url = Uri.parse('$baseUrl/api/notices/$id');
+      String token = await getToken();
+      final headers = {
+        'Content-Type': 'application/json',
+        if (token != "") 'Authorization': 'Bearer $token',
+      };
 
-    final response = await http.put(url, headers: headers, body: body);
+      final body = jsonEncode({
+        'title': title.trim(),
+        'description': description.trim(),
+      });
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      throw Exception('Failed to update notice: ${response.body}');
+      final response = await http.put(url, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        getAllNotices();
+      } else {
+        print('Failed to update notice: ${response.body}');
+      }
+    } catch (e) {
+      print(e);
     }
   }
 

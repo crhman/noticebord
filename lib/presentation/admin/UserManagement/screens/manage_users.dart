@@ -19,18 +19,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
   }
 
   void deleteUser({required String userId}) async {
-    try {
-      await context.read<UserManagementService>().deleteUser(userId);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('User deleted successfully')),
-      );
-      // Refresh the user list after deletion
-      await context.read<UserManagementService>().fetchUsers();
-    } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Failed to delete user: $e')));
-    }
+    await context.read<UserManagementService>().deleteUser(userId, context);
   }
 
   @override

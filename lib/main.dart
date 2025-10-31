@@ -4,11 +4,17 @@ import 'package:norticeboard/presentation/admin/AdminPage/screens/admin_page.dar
 import 'package:norticeboard/presentation/admin/NoticeMangement/services/notice_services.dart';
 import 'package:norticeboard/presentation/admin/UserManagement/services/user_management_ser.dart';
 import 'package:norticeboard/provider.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'presentation/auth/screens/login_screen.dart';
 
 void main() {
+
+  WidgetsFlutterBinding.ensureInitialized();
+  OneSignal.initialize("510a3b1d-a1e9-405a-84b0-92eb39aed535");
+  OneSignal.Notifications.requestPermission(true);
+
   runApp(
     MultiProvider(
       providers: [

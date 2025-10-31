@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'noticeboard-aebdd.firebasestorage.app',
     measurementId: 'G-MRK9MGCVD9',
   );
+
 }

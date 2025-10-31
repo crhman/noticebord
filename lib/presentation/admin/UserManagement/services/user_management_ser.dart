@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:norticeboard/model/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserManagementService extends ChangeNotifier {
   List<UserModel> _usersList = [];
@@ -37,12 +38,37 @@ class UserManagementService extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteUser(String id) async {
-    final response = await http.delete(
-      Uri.parse('$baseUrl/api/users/get_all-users/$id'),
-    );
-    if (response.statusCode != 200) {
-      throw Exception('Failed to delete user');
+  Future<void> deleteUser(String id, BuildContext ctx) async {
+    try {
+      final SharedPreferences pref = await SharedPreferences.getInstance();
+      String token = pref.getString("token") ?? "";
+      if (token == "") {
+        ScaffoldMessenger.of(ctx).showSnackBar(
+          const SnackBar(content: Text('Authentication token not found')),
+        );
+        return;
+      }
+      final response = await http.delete(
+        Uri.parse('$baseUrl/api/users/delete-user/$id'),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(ctx).showSnackBar(
+          const SnackBar(content: Text('User deleted successfully')),
+        );
+        fetchUsers();
+      } else {
+        final message = jsonDecode(response.body)["message"];
+        ScaffoldMessenger.of(
+          ctx,
+        ).showSnackBar(SnackBar(content: Text("$message")));
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }
