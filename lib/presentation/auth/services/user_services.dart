@@ -11,12 +11,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserServices {
   String baseUrl = "https://noticebord.onrender.com";
 
-  void login({
+  Future<void> login({
     required BuildContext ctx,
     required String email,
     required String password,
   }) async {
     try {
+      print("calling login api...");
       final http.Response response = await http.post(
         Uri.parse("$baseUrl/api/users/login"),
         headers: {"Content-Type": "application/json"},

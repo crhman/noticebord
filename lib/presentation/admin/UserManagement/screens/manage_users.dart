@@ -13,17 +13,29 @@ class UserManagementPage extends StatefulWidget {
 }
 
 class _UserManagementPageState extends State<UserManagementPage> {
-
   @override
   void initState() {
     super.initState();
   }
 
-
+  void deleteUser({required String userId}) async {
+    try {
+      await context.read<UserManagementService>().deleteUser(userId);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User deleted successfully')),
+      );
+      // Refresh the user list after deletion
+      await context.read<UserManagementService>().fetchUsers();
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to delete user: $e')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-     var usersList = context.watch<UserManagementService>().usersList;
+    var usersList = context.watch<UserManagementService>().usersList;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -36,7 +48,9 @@ class _UserManagementPageState extends State<UserManagementPage> {
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: context.watch<UserManagementService>().isLoading ? Center(child: CircularProgressIndicator(),) : ListView.builder(
+      body: context.watch<UserManagementService>().isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: usersList.length,
               itemBuilder: (context, index) {
@@ -92,7 +106,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
                             const SizedBox(width: 8),
                             TextButton.icon(
                               onPressed: () {
-                                // _deleteUser(user['id']);
+                                deleteUser(userId: user.id);
                               },
                               icon: const Icon(Icons.delete, color: Colors.red),
                               label: const Text(

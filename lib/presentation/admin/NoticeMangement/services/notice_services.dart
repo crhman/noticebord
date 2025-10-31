@@ -89,7 +89,7 @@ class NoticeService extends ChangeNotifier {
       'Content-Type': 'application/json',
       if (token != "") 'Authorization': 'Bearer $token',
     };
-
+    getAllNotices();
     final body = jsonEncode({
       'title': title.trim(),
       'description': description.trim(),

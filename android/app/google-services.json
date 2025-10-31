@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1065290692027",
+    "project_id": "noticeboard-aebdd",
+    "storage_bucket": "noticeboard-aebdd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065290692027:android:ca5a175d37f0c6e985409e",
+        "android_client_info": {
+          "package_name": "com.example.norticeboard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAnngpzpyz-oDh9hDef55-Hc2oZmP2JDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

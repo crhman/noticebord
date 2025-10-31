@@ -17,16 +17,23 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isPasswordVisible = false;
   final UserServices _userServices = UserServices();
 
-  void login() {
+  void login() async {
+    print("test");
     if (!_formKey.currentState!.validate()) {
       return print('missing field');
     }
+    setState(() {
+      isLoading = true;
+    });
 
-    _userServices.login(
+    await _userServices.login(
       ctx: context,
       email: _emailController.text,
       password: _passwordController.text,
     );
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
