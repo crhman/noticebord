@@ -1,4 +1,4 @@
-import Notification from "../models/notifiationModel";
+import Notification from "../models/notifiationModel.js";
 import OneSignal from "onesignal-node";
 
 
@@ -32,6 +32,7 @@ const client = new OneSignal.Client(
   };
    const response = await client.createNotification(notificationBody);
    console.log(response.body);
+    res.status(200).json({ success: true, message: 'Notification sent successfully', data: response.body });
    
         
     } catch (error) {

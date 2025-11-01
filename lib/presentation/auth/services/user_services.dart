@@ -73,7 +73,7 @@ class UserServices {
     bool isUserCreated = false;
     try {
       final http.Response response = await http.post(
-        Uri.parse("$baseUrl/api/create-user"),
+        Uri.parse("$baseUrl/api/users/create-user"),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           "email": email,
@@ -82,6 +82,7 @@ class UserServices {
           "phone": phone,
         }),
       );
+      print(response.body);
 
       if (response.statusCode == 201) {
         isUserCreated = true;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:norticeboard/model/notice_model.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/screens/add_notice.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/screens/edit_notice.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/services/notice_services.dart';
