@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:norticeboard/model/notice_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'notification_service.dart';
 
 const String baseUrl = "https://noticebord.onrender.com";
 
@@ -69,6 +70,8 @@ class NoticeService extends ChangeNotifier {
 
       if (response.statusCode == 200) {
         await getAllNotices();
+        NotificationService().sendNotification(title, description);
+        print("📢 Notification sent successfully");
       } else {
         print(response.body);
       }
