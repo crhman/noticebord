@@ -84,7 +84,7 @@ class ProfileScreen extends StatelessWidget {
             leading: Icon(Icons.info, color: Colors.blueAccent),
             title: Text("User Information", style: TextStyle(fontSize: 18)),
             onTap: () {
-              // Navigator.pushNamed(context, '/user_info');
+              Navigator.pushNamed(context, '/user_info');
             },
             trailing: Icon(Icons.arrow_forward_ios),
           ),

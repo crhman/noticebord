@@ -48,30 +48,28 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.sticky_note_2,
-                  size: 130,
-                  color: const Color.fromARGB(255, 86, 139, 237),
-                ),
+                Image.asset("assets/login.png", scale: 5),
                 SizedBox(height: 8),
-                Text(
-                  "login",
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
 
-                const SizedBox(height: 24),
+                // Text(
+                //   textAlign: TextAlign.end,
+                //   "login",
+                //   style: TextStyle(fontSize: 38, fontWeight: FontWeight.bold),
+                // ),
+                const SizedBox(height: 14),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(
+                    focusedBorder: InputBorder.none,
                     // labelText: 'Email',
-                    hintText: 'emial',
+                    hintText: 'Email',
                     filled: true,
                     fillColor: const Color.fromARGB(235, 237, 238, 238),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
                         color: Colors.white,
-                        width: 1,
+                        width: 0,
                       ),
                     ),
                   ),
@@ -85,21 +83,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
-                TextFormField(
+                const SizedBox(height: 13),
+               TextFormField(
                   controller: _passwordController,
-                  obscureText: isPasswordVisible,
+                  obscureText: !isPasswordVisible,
                   decoration: InputDecoration(
+                    focusedBorder: InputBorder.none,
                     // labelText: 'Password',
                     hintText: 'password',
                     filled: true,
                     fillColor: const Color.fromARGB(235, 237, 238, 238),
+
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: const BorderSide(
-                        color: Colors.white,
+                        color: Color.fromARGB(137, 211, 200, 200),
                         width: 1,
                       ),
+                    ),
+
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 16,
+                    ),
+                    labelStyle: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
                     ),
                     suffixIcon: IconButton(
                       icon: Icon(

@@ -15,12 +15,25 @@ class NoticeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: ListTile(
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text(date),
-        onTap: onTap,
+      elevation: 3, // yar u taago card-ka
+      shadowColor: Colors.black26,
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Container(
+        height: 100, // 👉 halkan waxaad beddeli kartaa dhererka card-ka
+        padding: const EdgeInsets.all(12),
+        child: ListTile(
+          title: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(date, style: const TextStyle(color: Colors.grey)),
+          ),
+          onTap: onTap,
+          trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+        ),
       ),
     );
   }

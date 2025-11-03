@@ -64,28 +64,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
-                  children: const [
-                    Icon(
-                      Icons.sticky_note_2,
-                      size: 130,
-                      color: const Color.fromARGB(255, 86, 139, 237),
-                    ),
+                  children: [
+                    Image.asset("assets/register.png", scale: 2),
                     SizedBox(height: 8),
-                    Text(
-                      "register",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    // Text(
+                    //   "register",
+                    //   style: TextStyle(
+                    //     fontSize: 28,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 14),
 
                 // name
                 TextFormField(
                   controller: nameController,
                   decoration: InputDecoration(
+                    focusedBorder: InputBorder.none,
                     // labelText: 'Username',
                     hintText: 'name',
                     filled: true,
@@ -114,13 +111,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
 
                 // pHONE
                 TextFormField(
                   controller: phoneController,
                   decoration: InputDecoration(
                     // labelText: 'Username',
+                    focusedBorder: InputBorder.none,
                     hintText: 'phone',
                     filled: true,
                     fillColor: const Color.fromARGB(235, 237, 238, 238),
@@ -148,12 +146,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
 
                 // EMAIL
                 TextFormField(
                   controller: emailController,
                   decoration: InputDecoration(
+                    focusedBorder: InputBorder.none,
                     // labelText: 'Email',
                     hintText: 'email',
                     filled: true,
@@ -185,13 +184,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
 
                 // PASSWORD
                 TextFormField(
                   controller: passwordController,
                   obscureText: !isPasswordVisible,
                   decoration: InputDecoration(
+                    focusedBorder: InputBorder.none,
                     // labelText: 'Password',
                     hintText: 'password',
                     filled: true,
@@ -236,7 +236,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 14),
 
                 // REGISTER BUTTON
                 isLoading
@@ -258,7 +258,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
 
                 // LOGIN NAVIGATION
                 GestureDetector(

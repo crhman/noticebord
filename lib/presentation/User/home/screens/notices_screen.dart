@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:norticeboard/presentation/User/home/screens/notification_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../admin/NoticeMangement/screens/notice_detail.dart';
 import '../../../admin/NoticeMangement/services/notice_services.dart';
@@ -18,12 +19,27 @@ class _NoticesScreenState extends State<NoticesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Notices List",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          "Notices",
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.notifications_none,
+              color: Colors.blueAccent,
+            ),
+            onPressed: () {
+              // Marka icon la taabto
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: context.watch<NoticeService>().isLoading
           ? Center(child: CircularProgressIndicator())
