@@ -11,6 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserServices {
   String baseUrl = "https://noticebord.onrender.com";
 
+  // static Null get currentUser => null;
+
   Future<void> login({
     required BuildContext ctx,
     required String email,

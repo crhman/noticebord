@@ -37,13 +37,90 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            _showLogoutDialog(context);
-          },
-          child: const Text("Logout"),
+      // backgroundColor: const Color.fromARGB(255, 216, 215, 215),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Profile',
+          style: TextStyle(fontWeight: FontWeight.w600),
         ),
+      ),
+      body: Column(
+        children: [
+          SizedBox(height: 10),
+          Center(
+            child: ClipOval(
+              child: Image.asset(
+                "assets/profile.jpg",
+                width: 130,
+                height: 130,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          SizedBox(height: 10),
+          Text(
+            "abdirahman abdifatah",
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            "crahmanbahal@gmail.com",
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w300),
+          ),
+          SizedBox(height: 5),
+          Text(
+            "Role: Admin",
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.blueAccent,
+            ),
+          ),
+
+          SizedBox(height: 10),
+          Divider(thickness: 1, color: Colors.grey[300]),
+          ListTile(
+            leading: Icon(Icons.info, color: Colors.blueAccent),
+            title: Text("User Information", style: TextStyle(fontSize: 18)),
+            onTap: () {
+              // Navigator.pushNamed(context, '/user_info');
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings, color: Colors.blueAccent),
+            title: Text("setting", style: TextStyle(fontSize: 18)),
+            onTap: () {},
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: Icon(Icons.person, color: Colors.blueAccent),
+            title: Text("account", style: TextStyle(fontSize: 18)),
+            onTap: () {},
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: Icon(Icons.notifications, color: Colors.blueAccent),
+            title: Text("Notifications", style: TextStyle(fontSize: 18)),
+            onTap: () {},
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: Icon(Icons.app_blocking, color: Colors.blueAccent),
+            title: Text("App Info", style: TextStyle(fontSize: 18)),
+            onTap: () {},
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: Icon(Icons.logout, color: Colors.redAccent),
+            title: Text("Logout", style: TextStyle(fontSize: 18)),
+            onTap: () {
+              _showLogoutDialog(context);
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+        ],
       ),
     );
   }
