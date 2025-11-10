@@ -6,9 +6,9 @@ import 'package:norticeboard/model/notification_model.dart';
 class NotificationService with ChangeNotifier {
   final String baseUrl = "https://noticebord.onrender.com";
 
-  List<dynamic> _notifications = [];
+  List<NotificationModel> _notifications = [];
 
-  List<dynamic> get notifications => _notifications;
+  List<NotificationModel> get notifications => _notifications;
   bool isLoading = false;
 
   NotificationService() {
@@ -58,6 +58,7 @@ class NotificationService with ChangeNotifier {
         isLoading = false;
         print('Failed to fetch notices: ${response.body}');
       }
+      print(notifications.length);
     } catch (e) {
       print("⚠️ Error fetching notifications: $e");
     }

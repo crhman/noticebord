@@ -10,8 +10,6 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  final bool _isLoading = true;
-
   @override
   Widget build(BuildContext context) {
     final notifications = context.watch<NotificationService>().notifications;
@@ -24,7 +22,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
         centerTitle: true,
       ),
-      body: _isLoading
+      body: context.watch<NotificationService>().isLoading
           ? const Center(child: CircularProgressIndicator())
           : notifications.isEmpty
           ? const Center(
@@ -34,46 +32,43 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ),
             )
           : ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
-            itemCount: notifications.length,
-            itemBuilder: (context, index) {
-              final notification = notifications[index];
-          
-              return Card(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ListTile(
-                  leading: const Icon(
-                    Icons.notifications_active,
-                    color: Colors.blueAccent,
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: notifications.length,
+              itemBuilder: (context, index) {
+                final notification = notifications[index];
+
+                return Card(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
                   ),
-                  title: Text(
-                    notification['title'] ?? 'No title',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    leading: const Icon(
+                      Icons.notifications_active,
+                      color: Colors.blueAccent,
+                    ),
+                    title: Text(
+                      notification.title ?? 'No title',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    subtitle: Text(
+                      notification.message ?? 'No message',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    trailing: Text(
+                      notification.createdAt.toString() ?? '',
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
                   ),
-                  subtitle: Text(
-                    notification['message'] ?? 'No message',
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  trailing: Text(
-                    notification['date'] ?? '',
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+                );
+              },
+            ),
     );
   }
 }
