@@ -1,11 +1,12 @@
 import expess from 'express';
-import { sendNotification } from '../Controllers/notificationController.js';
+import { getAllNotification, sendNotification } from '../Controllers/notificationController.js';
 
 
 
 const router = expess.Router();
-router.post('/send-notification', sendNotification )
+
 router.route("/send-notification").post(sendNotification);
+router.route("/getAll_notification").get(getAllNotification);
 
 
 export default router;

@@ -14,6 +14,9 @@ const client = new OneSignal.Client(
 
     try {
         const { title, message, imageUrl } = req.body;
+
+  
+
   
 
   const notificationBody = {
@@ -31,8 +34,19 @@ const client = new OneSignal.Client(
     ...(imageUrl && { big_picture: imageUrl }),
   };
    const response = await client.createNotification(notificationBody);
-   console.log(response.body);
-    res.status(200).json({ success: true, message: 'Notification sent successfully', data: response.body });
+const id =  response.body["id"];
+   
+
+        const newNotification = new Notification({
+          notificationId: id,
+        title,
+        message,
+        imageUrl,
+    });
+
+   const savedNotification = await newNotification.save();
+
+    res.status(200).json({ success: true, message: 'Notification sent successfully', data: savedNotification });
    
         
     } catch (error) {
@@ -42,3 +56,37 @@ const client = new OneSignal.Client(
   
  
 };
+
+
+// export const getAllUsers = async (req, res) => {
+//     try {
+//         const users = await User.find({});
+//         res.status(200).json({      
+//             success: true,
+//             data: users,
+//             message: "Users retrieved successfully"
+//         });
+//     } catch (error) {
+//         res.status(500).json({
+//             success: false, 
+//             message: "Server error"
+//         });
+//     }
+// }
+
+
+export const getAllNotification = async (req, res) => {
+    try {
+        const notification = await Notification.find({});
+        res.status(200).json({      
+            success: true,
+            data: notification ,
+            message: "notification retrived successfully"
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false, 
+            message: "Server error"
+        });
+    }
+}
