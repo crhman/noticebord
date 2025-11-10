@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:norticeboard/model/notification_model.dart';
 
 class NotificationService with ChangeNotifier {
   final String baseUrl = "https://noticebord.onrender.com";
@@ -8,6 +9,11 @@ class NotificationService with ChangeNotifier {
   List<dynamic> _notifications = [];
 
   List<dynamic> get notifications => _notifications;
+  bool isLoading = false;
+
+  NotificationService() {
+    getAllNotifications();
+  }
 
   // 📨 Send notification
   Future<void> sendNotification(String title, String message) async {
@@ -41,24 +47,16 @@ class NotificationService with ChangeNotifier {
       );
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final List<dynamic> data = jsonDecode(response.body)["data"];
+        _notifications = data
+            .map((item) => NotificationModel.fromJson(item))
+            .toList();
 
-        // Assuming the backend returns a list
-        if (data is List) {
-          _notifications = data;
-        } else if (data['notifications'] is List) {
-          _notifications = data['notifications'];
-        } else {
-          _notifications = [];
-        }
-        print(response.body);
-
-        print(
-          "📢 Notifications fetched successfully (${_notifications.length})",
-        );
+        isLoading = false;
         notifyListeners();
       } else {
-        print("❌ Failed to fetch notifications: ${response.body}");
+        isLoading = false;
+        print('Failed to fetch notices: ${response.body}');
       }
     } catch (e) {
       print("⚠️ Error fetching notifications: $e");

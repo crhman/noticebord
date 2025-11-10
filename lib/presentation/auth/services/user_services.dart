@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:norticeboard/presentation/User/home/screens/home_sceen.dart';
+import 'package:norticeboard/presentation/client/home/screens/home_sceen.dart';
 import 'package:norticeboard/presentation/admin/AdminPage/screens/admin_page.dart';
 import 'package:norticeboard/provider.dart';
 import 'package:provider/provider.dart';

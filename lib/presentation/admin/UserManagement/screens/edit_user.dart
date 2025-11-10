@@ -81,7 +81,7 @@ class _EditUserPageState extends State<EditUserPage> {
 
             // Role Dropdown
             DropdownButtonFormField<String>(
-              value: _selectedRole,
+              initialValue: _selectedRole,
               decoration: InputDecoration(
                 labelText: "Role",
                 border: OutlineInputBorder(

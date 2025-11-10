@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:norticeboard/presentation/User/home/screens/notification_screen.dart';
+import 'package:norticeboard/presentation/client/home/screens/notification_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../admin/NoticeMangement/screens/notice_detail.dart';
 import '../../../admin/NoticeMangement/services/notice_services.dart';

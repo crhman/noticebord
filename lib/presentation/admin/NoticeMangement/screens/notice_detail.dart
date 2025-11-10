@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:norticeboard/model/notice_model.dart';
-import 'package:norticeboard/presentation/User/home/screens/home_sceen.dart';
+import 'package:norticeboard/presentation/client/home/screens/home_sceen.dart';
 
 class NoticeDetailPage extends StatelessWidget {
   final Notice notice; // 👈 Xogta notice-ka
