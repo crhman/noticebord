@@ -10,6 +10,13 @@ class NoticeDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Notice Detail",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+      ),
       backgroundColor: const Color(0xFFF9FAFB),
       body: SafeArea(
         child: Padding(
@@ -17,19 +24,7 @@ class NoticeDetailPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 🔙 Back Button
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DashboardScreen(),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.arrow_back_ios_new_rounded),
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
               // 📦 Card Container (title + date + message)
               Expanded(
