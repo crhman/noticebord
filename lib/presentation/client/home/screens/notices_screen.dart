@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:norticeboard/presentation/client/home/screens/notification_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../admin/NoticeMangement/screens/notice_detail.dart';
@@ -13,10 +14,20 @@ class NoticesScreen extends StatefulWidget {
 }
 
 class _NoticesScreenState extends State<NoticesScreen> {
+  String formatDate(String dateString) {
+    try {
+      DateTime dateTime = DateTime.parse(dateString).toLocal();
+      return DateFormat('dd, MM, yyyy - hh:mm a').format(dateTime);
+    } catch (e) {
+      return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var notices = context.watch<NoticeService>().noticeList;
     return Scaffold(
+      // backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
         title: const Text(
           "Notices",
@@ -49,7 +60,7 @@ class _NoticesScreenState extends State<NoticesScreen> {
                 final notice = notices[index];
                 return NoticeCard(
                   title: notice.title,
-                  date: notice.createdAt.toLocal().toString().split('.').first,
+                  date: formatDate(notice.createdAt.toString() ?? ""),
                   onTap: () {
                     Navigator.push(
                       context,

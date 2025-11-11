@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:norticeboard/presentation/auth/screens/login_screen.dart';
-import 'package:norticeboard/presentation/auth/services/user_services.dart';
+import 'package:norticeboard/presentation/client/profile/screens/privacy_and_policy.dart';
+import 'package:norticeboard/presentation/client/profile/screens/terms_and_condi.dart';
+import '../../../auth/screens/login_screen.dart';
+import '../../../auth/services/user_services.dart';
 
-class AdminProfileScreen extends StatefulWidget {
-  const AdminProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<AdminProfileScreen> createState() => _AdminProfileScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _AdminProfileScreenState extends State<AdminProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _showLogoutDialog(BuildContext context) async {
     return showDialog(
       context: context,
@@ -38,6 +40,9 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
       ),
     );
   }
+
+  bool isEnabled = false;
+  bool isDark = false;
 
   @override
   Widget build(BuildContext context) {
@@ -85,45 +90,178 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
 
           SizedBox(height: 10),
           Divider(thickness: 1, color: Colors.grey[300]),
-          ListTile(
-            leading: Icon(Icons.info, color: Colors.blueAccent),
-            title: Text("User Information", style: TextStyle(fontSize: 18)),
-            onTap: () {
-              Navigator.pushNamed(context, '/user_info');
-            },
-            trailing: Icon(Icons.arrow_forward_ios),
+
+          Container(
+            margin: EdgeInsets.all(8),
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              // border: Border.all(color: Colors.blueAccent, width: 1),
+            ),
+            child: ListTile(
+              leading: Icon(Icons.app_blocking, color: Colors.blueAccent),
+              title: Text("User Info", style: TextStyle(fontSize: 18)),
+              onTap: () {},
+              trailing: Icon(Icons.arrow_forward_ios),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.settings, color: Colors.blueAccent),
-            title: Text("setting", style: TextStyle(fontSize: 18)),
-            onTap: () {},
-            trailing: Icon(Icons.arrow_forward_ios),
+
+          Container(
+            margin: EdgeInsets.all(8),
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              // border: Border.all(color: Colors.blueAccent, width: 1),
+            ),
+            child: SwitchListTile(
+              title: Text('Enable Notifications'),
+              // subtitle: Text('Turn on or off'),
+              value: isEnabled,
+              onChanged: (value) {
+                setState(() {
+                  isEnabled = value;
+                });
+              },
+              secondary: Icon(Icons.notifications, color: Colors.blueAccent),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.person, color: Colors.blueAccent),
-            title: Text("account", style: TextStyle(fontSize: 18)),
-            onTap: () {},
-            trailing: Icon(Icons.arrow_forward_ios),
+
+          Container(
+            margin: EdgeInsets.all(8),
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              // border: Border.all(color: Colors.blueAccent, width: 1),
+            ),
+            child: SwitchListTile(
+              title: Text('Enable Dark Mode'),
+              // subtitle: Text('Turn on or off'),
+              value: isDark,
+              onChanged: (value) {
+                setState(() {
+                  isDark = value;
+                });
+              },
+              secondary: Icon(Icons.dark_mode, color: Colors.blueAccent),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.notifications, color: Colors.blueAccent),
-            title: Text("Notifications", style: TextStyle(fontSize: 18)),
-            onTap: () {},
-            trailing: Icon(Icons.arrow_forward_ios),
+          Container(
+            margin: EdgeInsets.all(8),
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              // border: Border.all(color: Colors.blueAccent, width: 1),
+            ),
+            child: ListTile(
+              leading: Icon(Icons.app_blocking, color: Colors.blueAccent),
+              title: Text("Privacy And Policy", style: TextStyle(fontSize: 18)),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const PrivacyPolicyScreen(),
+                  ),
+                );
+              },
+              trailing: Icon(Icons.arrow_forward_ios),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.app_blocking, color: Colors.blueAccent),
-            title: Text("App Info", style: TextStyle(fontSize: 18)),
-            onTap: () {},
-            trailing: Icon(Icons.arrow_forward_ios),
+
+          Container(
+            margin: EdgeInsets.all(5),
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              // border: Border.all(color: Colors.blueAccent, width: 1),
+            ),
+            child: ListTile(
+              leading: Icon(Icons.app_blocking, color: Colors.blueAccent),
+              title: Text(
+                "Terms And Condition",
+                style: TextStyle(fontSize: 18),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const TermsScreen()),
+                );
+              },
+              trailing: Icon(Icons.arrow_forward_ios),
+            ),
           ),
-          ListTile(
-            leading: Icon(Icons.logout, color: Colors.redAccent),
-            title: Text("Logout", style: TextStyle(fontSize: 18)),
-            onTap: () {
-              _showLogoutDialog(context);
-            },
-            trailing: Icon(Icons.arrow_forward_ios),
+
+          Container(
+            margin: EdgeInsets.all(12),
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              // color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
+              // border: Border.all(color: Colors.blueAccent, width: 1),
+            ),
+            child: SizedBox(
+              width: 530,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: () {
+                  _showLogoutDialog(context);
+                },
+                child: Text(
+                  "Logout",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
           ),
         ],
       ),

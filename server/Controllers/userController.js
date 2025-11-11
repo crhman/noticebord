@@ -2,7 +2,6 @@
 import User from '../models/User.js';
 import generateToken from '../token/generateToken.js';
 
-
 export const login = async (req,res) =>{
     try {
         const {email,password} = req.body;

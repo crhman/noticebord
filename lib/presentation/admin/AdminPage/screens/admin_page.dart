@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:norticeboard/presentation/admin/AdminPage/screens/admin_home_screen.dart';
 import 'package:norticeboard/presentation/admin/AdminPage/screens/admin_profile_screen.dart';
 
-
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
 
@@ -12,7 +11,7 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   int _cureentInex = 0;
-  List<Widget> admin_screens = [AdminHomeScreen(), AdminProfileScreen()];
+  List<Widget> admin_screens = [AdminHomeScreen(), ProfileScreen()];
 
   @override
   Widget build(BuildContext context) {

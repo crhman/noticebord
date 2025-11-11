@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/services/notification_service.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,15 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  String formatDate(String dateString) {
+    try {
+      DateTime dateTime = DateTime.parse(dateString).toLocal();
+      return DateFormat('MMM d, yyyy - hh:mm a').format(dateTime);
+    } catch (e) {
+      return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final notifications = context.watch<NotificationService>().notifications;
@@ -59,16 +69,107 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     ),
                     subtitle: Text(
                       notification.message ?? 'No message',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 14),
                     ),
                     trailing: Text(
-                      notification.createdAt.toString() ?? '',
+                      formatDate(notification.createdAt.toString() ?? ""),
                       style: const TextStyle(fontSize: 12, color: Colors.grey),
                     ),
+                    onTap: () {
+                      // Navigation to detail page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NotificationDetailPage(
+                            title: notification.title ?? 'No title',
+                            message: notification.message ?? 'No message',
+                            date: formatDate(
+                              notification.createdAt.toString() ?? "",
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 );
               },
             ),
+    );
+  }
+}
+
+// Notification Detail Page
+class NotificationDetailPage extends StatelessWidget {
+  final String title;
+  final String message;
+  final String date;
+
+  const NotificationDetailPage({
+    super.key,
+    required this.title,
+    required this.message,
+    required this.date,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Notice Detail"),
+        centerTitle: true,
+        // backgroundColor: Colors.white,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.15),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: Column(
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  Text(
+                    date,
+                    style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  ),
+                  const Divider(height: 30, thickness: 1),
+
+                  Text(
+                    message,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      height: 1.6,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
