@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:norticeboard/presentation/client/profile/screens/privacy_and_policy.dart';
 import 'package:norticeboard/presentation/client/profile/screens/terms_and_condi.dart';
+import 'package:norticeboard/theme_provider.dart';
+import 'package:provider/provider.dart';
 import '../../../auth/screens/login_screen.dart';
 import '../../../auth/services/user_services.dart';
 
@@ -20,14 +22,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         content: const Text("Are you sure you want to logout?"),
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close dialog
-            },
+            onPressed: () => Navigator.of(context).pop(),
             child: const Text("Cancel"),
           ),
           ElevatedButton(
             onPressed: () async {
-              Navigator.of(context).pop(); // Close dialog first
+              Navigator.of(context).pop();
               await UserServices().logOut(context);
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -42,12 +42,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   bool isEnabled = false;
-  bool isDark = false;
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Midabyo dynamic ah
+    final containerColor = isDark ? Colors.grey[900] : Colors.white;
+    final textColor = isDark ? Colors.white : Colors.black;
+    final iconColor = Colors.blueAccent;
+
     return Scaffold(
-      // backgroundColor: const Color.fromARGB(255, 216, 215, 215),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
@@ -55,138 +61,96 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 10),
-          Center(
-            child: ClipOval(
-              child: Image.asset(
-                "assets/profile.jpg",
-                width: 130,
-                height: 130,
-                fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+
+            // Profile Image
+            Center(
+              child: ClipOval(
+                child: Image.asset(
+                  "assets/profile.jpg",
+                  width: 130,
+                  height: 130,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
 
-          SizedBox(height: 10),
-          Text(
-            "abdirahman abdifatah",
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            "crahmanbahal@gmail.com",
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w300),
-          ),
-          SizedBox(height: 5),
-          Text(
-            "Role: Admin",
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.blueAccent,
+            const SizedBox(height: 10),
+            Text(
+              "abdirahman abdifatah",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
             ),
-          ),
-
-          SizedBox(height: 10),
-          Divider(thickness: 1, color: Colors.grey[300]),
-
-          Container(
-            margin: EdgeInsets.all(8),
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: Offset(0, 3),
-                ),
-              ],
-              // border: Border.all(color: Colors.blueAccent, width: 1),
+            Text(
+              "crahmanbahal@gmail.com",
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.w300,
+                color: textColor,
+              ),
             ),
-            child: ListTile(
-              leading: Icon(Icons.app_blocking, color: Colors.blueAccent),
-              title: Text("User Info", style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 5),
+            const Text(
+              "Role: Admin",
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.blueAccent,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+            Divider(
+              thickness: 1,
+              color: isDark ? Colors.grey[700] : Colors.grey[300],
+            ),
+
+            // Reusable ListTile Container widget
+            buildListTileContainer(
+              context,
+              icon: Icons.person,
+              title: "User Info",
+              iconColor: iconColor,
+              containerColor: containerColor!,
+              textColor: textColor!,
               onTap: () {},
-              trailing: Icon(Icons.arrow_forward_ios),
             ),
-          ),
 
-          Container(
-            margin: EdgeInsets.all(8),
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: Offset(0, 3),
-                ),
-              ],
-              // border: Border.all(color: Colors.blueAccent, width: 1),
-            ),
-            child: SwitchListTile(
-              title: Text('Enable Notifications'),
-              // subtitle: Text('Turn on or off'),
+            buildSwitchTileContainer(
+              context,
+              title: "Enable Notifications",
               value: isEnabled,
-              onChanged: (value) {
-                setState(() {
-                  isEnabled = value;
-                });
-              },
-              secondary: Icon(Icons.notifications, color: Colors.blueAccent),
+              onChanged: (v) => setState(() => isEnabled = v),
+              icon: Icons.notifications,
+              isDark: isDark,
+              containerColor: containerColor,
+              textColor: textColor,
             ),
-          ),
 
-          Container(
-            margin: EdgeInsets.all(8),
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: Offset(0, 3),
-                ),
-              ],
-              // border: Border.all(color: Colors.blueAccent, width: 1),
+            buildSwitchTileContainer(
+              context,
+              title: "Enable Dark Mode",
+              value: themeProvider.isDarkMode,
+              onChanged: (v) => themeProvider.toggleTheme(),
+              icon: Icons.dark_mode,
+              isDark: isDark,
+              containerColor: containerColor,
+              textColor: textColor,
             ),
-            child: SwitchListTile(
-              title: Text('Enable Dark Mode'),
-              // subtitle: Text('Turn on or off'),
-              value: isDark,
-              onChanged: (value) {
-                setState(() {
-                  isDark = value;
-                });
-              },
-              secondary: Icon(Icons.dark_mode, color: Colors.blueAccent),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(8),
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: Offset(0, 3),
-                ),
-              ],
-              // border: Border.all(color: Colors.blueAccent, width: 1),
-            ),
-            child: ListTile(
-              leading: Icon(Icons.app_blocking, color: Colors.blueAccent),
-              title: Text("Privacy And Policy", style: TextStyle(fontSize: 18)),
+
+            buildListTileContainer(
+              context,
+              icon: Icons.privacy_tip,
+              title: "Privacy And Policy",
+              iconColor: iconColor,
+              containerColor: containerColor,
+              textColor: textColor,
               onTap: () {
                 Navigator.push(
                   context,
@@ -195,57 +159,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 );
               },
-              trailing: Icon(Icons.arrow_forward_ios),
             ),
-          ),
 
-          Container(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: Offset(0, 3),
-                ),
-              ],
-              // border: Border.all(color: Colors.blueAccent, width: 1),
-            ),
-            child: ListTile(
-              leading: Icon(Icons.app_blocking, color: Colors.blueAccent),
-              title: Text(
-                "Terms And Condition",
-                style: TextStyle(fontSize: 18),
-              ),
+            buildListTileContainer(
+              context,
+              icon: Icons.article_outlined,
+              title: "Terms And Condition",
+              iconColor: iconColor,
+              containerColor: containerColor,
+              textColor: textColor,
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const TermsScreen()),
                 );
               },
-              trailing: Icon(Icons.arrow_forward_ios),
             ),
-          ),
 
-          Container(
-            margin: EdgeInsets.all(12),
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            decoration: BoxDecoration(
-              // color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: Offset(0, 3),
-                ),
-              ],
-              // border: Border.all(color: Colors.blueAccent, width: 1),
-            ),
-            child: SizedBox(
+            const SizedBox(height: 10),
+            SizedBox(
               width: 530,
               height: 50,
               child: ElevatedButton(
@@ -253,18 +185,90 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   backgroundColor: Colors.blueAccent,
                   foregroundColor: Colors.white,
                 ),
-                onPressed: () {
-                  _showLogoutDialog(context);
-                },
-                child: Text(
+                onPressed: () => _showLogoutDialog(context),
+                child: const Text(
                   "Logout",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
+  // Helper: ListTile Container
+  Widget buildListTileContainer(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required Color iconColor,
+    required Color containerColor,
+    required Color textColor,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: containerColor,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: iconColor),
+        title: Text(title, style: TextStyle(fontSize: 18, color: textColor)),
+        trailing: Icon(
+          Icons.arrow_forward_ios,
+          color: isDark(context) ? Colors.white70 : Colors.grey,
+        ),
+        onTap: onTap,
+      ),
+    );
+  }
+
+  // Helper: SwitchListTile Container
+  Widget buildSwitchTileContainer(
+    BuildContext context, {
+    required String title,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+    required IconData icon,
+    required bool isDark,
+    required Color containerColor,
+    required Color textColor,
+  }) {
+    return Container(
+      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: containerColor,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: SwitchListTile(
+        title: Text(title, style: TextStyle(color: textColor, fontSize: 18)),
+        value: value,
+        onChanged: onChanged,
+        secondary: Icon(icon, color: Colors.blueAccent),
+        activeColor: Colors.blueAccent,
+        inactiveThumbColor: isDark ? Colors.grey[700] : Colors.grey[400],
+        inactiveTrackColor: isDark ? Colors.grey[600] : Colors.grey[300],
+      ),
+    );
+  }
+
+  bool isDark(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark;
 }

@@ -13,34 +13,36 @@ class AdminHomeScreen extends StatefulWidget {
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-       body: SafeArea(
+      body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Title (kor dhigo)
-              const Align(
+              // Title
+              Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 100),
+                  padding: const EdgeInsets.only(top: 100),
                   child: Text(
                     "Admin Page",
                     style: TextStyle(
                       fontSize: 33,
-
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 30), // boos bannaan
-              // Buttons dhexe ku dhig
+              const SizedBox(height: 30),
+
+              // Buttons
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start, // dhexe vertical
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     // Manage Notices Button
                     GestureDetector(
@@ -56,19 +58,27 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         height: 160,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 244, 244, 246),
+                          color: isDark
+                              ? Colors.grey.shade800
+                              : const Color.fromARGB(255, 244, 244, 246),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
-                          children: const [
-                            Icon(Icons.list_alt, color: Colors.blue, size: 60),
-                            SizedBox(width: 16),
+                          children: [
+                            const Icon(
+                              Icons.list_alt,
+                              color: Colors.blue,
+                              size: 60,
+                            ),
+                            const SizedBox(width: 16),
                             Text(
                               "Manage\nNotices",
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.black,
+                                color: Theme.of(
+                                  context,
+                                ).textTheme.bodyLarge!.color,
                               ),
                             ),
                           ],
@@ -91,19 +101,27 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         height: 160,
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
+                          color: isDark
+                              ? Colors.grey.shade800
+                              : Colors.grey.shade100,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
-                          children: const [
-                            Icon(Icons.person, color: Colors.blue, size: 60),
-                            SizedBox(width: 16),
+                          children: [
+                            const Icon(
+                              Icons.person,
+                              color: Colors.blue,
+                              size: 60,
+                            ),
+                            const SizedBox(width: 16),
                             Text(
                               "User\nManagement",
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w600,
-                                color: Colors.black,
+                                color: Theme.of(
+                                  context,
+                                ).textTheme.bodyLarge!.color,
                               ),
                             ),
                           ],

@@ -13,32 +13,35 @@ class ManageNoticesPage extends StatefulWidget {
 
 class _ManageNoticesPageState extends State<ManageNoticesPage> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     var notices = context.watch<NoticeService>().noticeList;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "Manage Notices",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge!.color,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor:
+            Theme.of(context).appBarTheme.backgroundColor ??
+            Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
       ),
       body: context.watch<NoticeService>().isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: notices.length,
               itemBuilder: (context, index) {
                 final notice = notices[index];
                 return Card(
+                  color: isDark ? Colors.grey.shade800 : Colors.white,
                   margin: const EdgeInsets.only(bottom: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -51,9 +54,10 @@ class _ManageNoticesPageState extends State<ManageNoticesPage> {
                       children: [
                         Text(
                           notice.title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -63,12 +67,20 @@ class _ManageNoticesPageState extends State<ManageNoticesPage> {
                               .toString()
                               .split('.')
                               .first,
-                          style: TextStyle(color: Colors.grey[600]),
+                          style: TextStyle(
+                            color: isDark ? Colors.grey[400] : Colors.grey[600],
+                            fontSize: 14,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           notice.description ?? 'No description provided.',
-                          style: const TextStyle(fontSize: 16),
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.color,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         Row(
@@ -120,7 +132,9 @@ class _ManageNoticesPageState extends State<ManageNoticesPage> {
             MaterialPageRoute(builder: (context) => const AddNoticePage()),
           );
         },
-        backgroundColor: const Color.fromARGB(255, 204, 216, 227),
+        backgroundColor: isDark
+            ? Colors.blueGrey.shade700
+            : const Color(0xFFCCD8E3),
         child: const Icon(Icons.add),
       ),
     );

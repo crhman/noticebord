@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:norticeboard/model/notice_model.dart';
 import 'package:norticeboard/presentation/admin/NoticeMangement/services/notice_services.dart';
@@ -23,7 +21,6 @@ class _EditNoticePageState extends State<EditNoticePage> {
   @override
   void initState() {
     super.initState();
-    
     _titleController = TextEditingController(text: widget.notice.title);
     _descController = TextEditingController(text: widget.notice.description);
   }
@@ -63,15 +60,22 @@ class _EditNoticePageState extends State<EditNoticePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = Theme.of(context).textTheme.bodyLarge!.color;
+    final borderColor = isDark ? Colors.grey.shade700 : Colors.grey.shade300;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "Edit Notice",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor:
+            Theme.of(context).appBarTheme.backgroundColor ??
+            Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        iconTheme: IconThemeData(color: textColor),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -79,41 +83,83 @@ class _EditNoticePageState extends State<EditNoticePage> {
           key: _formKey,
           child: Column(
             children: [
+              // Title Field
               TextFormField(
                 controller: _titleController,
-                decoration: const InputDecoration(
+                style: TextStyle(color: textColor),
+                decoration: InputDecoration(
                   labelText: "Title",
-                  border: OutlineInputBorder(),
+                  labelStyle: TextStyle(color: textColor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: borderColor),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: borderColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: isDark ? Colors.blueGrey : Colors.blue,
+                    ),
+                  ),
                 ),
                 validator: (value) =>
                     value == null || value.isEmpty ? 'Title is required' : null,
               ),
+
               const SizedBox(height: 16),
+
+              // Description Field
               TextFormField(
                 controller: _descController,
+                style: TextStyle(color: textColor),
                 maxLines: 5,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: "Description",
-                  border: OutlineInputBorder(),
+                  labelStyle: TextStyle(color: textColor),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: borderColor),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(color: borderColor),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide(
+                      color: isDark ? Colors.blueGrey : Colors.blue,
+                    ),
+                  ),
                 ),
                 validator: (value) => value == null || value.isEmpty
                     ? 'Description is required'
                     : null,
               ),
+
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _isLoading ? null : updateNotice,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 14,
-                    horizontal: 50,
+
+              // Save Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : updateNotice,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isDark
+                        ? Colors.blue.shade700
+                        : Colors.blue,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
+                  child: _isLoading
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : const Text("Save Changes"),
                 ),
-                child: _isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text("Save Changes"),
               ),
             ],
           ),

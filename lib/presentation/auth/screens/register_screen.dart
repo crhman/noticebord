@@ -22,7 +22,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   void register() async {
     if (!_formKey.currentState!.validate()) {
-      print("Missing important information are missing");
+      print("Missing important information");
+      return;
     }
 
     setState(() {
@@ -36,25 +37,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
       password: passwordController.text,
     );
 
-    if (isUserCreated) {
+    setState(() {
       isLoading = false;
+    });
+
+    if (isUserCreated) {
       Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => LoginScreen()),
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
         (route) => false,
       );
-      setState(() {});
     } else {
-      isLoading = false;
-      isUserCreated = false;
-      error = "user not created";
-      setState(() {});
+      error = "User not created";
     }
+  }
+
+  InputDecoration darkInputDecoration(String hint) {
+    return InputDecoration(
+      hintText: hint,
+      hintStyle: const TextStyle(color: Colors.grey),
+      filled: true,
+      fillColor: const Color(0xFF1E1E1E),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.blue, width: 1),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: Colors.transparent),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFF121212),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -63,117 +81,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Column(
-                  children: [
-                    Image.asset("assets/register.png", scale: 2),
-                    SizedBox(height: 8),
-                    // Text(
-                    //   "register",
-                    //   style: TextStyle(
-                    //     fontSize: 28,
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
-                  ],
-                ),
+                Image.asset("assets/register.png", scale: 2),
                 const SizedBox(height: 14),
 
-                // name
+                // Name
                 TextFormField(
                   controller: nameController,
-                  decoration: InputDecoration(
-                    focusedBorder: InputBorder.none,
-                    // labelText: 'Username',
-                    hintText: 'name',
-                    filled: true,
-                    fillColor: const Color.fromARGB(235, 237, 238, 238),
-
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: Colors.white54,
-                        width: 1,
-                      ),
-                    ),
-
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 16,
-                    ),
-                    labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
-                  ),
+                  style: const TextStyle(color: Colors.white),
+                  decoration: darkInputDecoration('Name'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "name is required";
+                      return "Name is required";
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 10),
 
-                // pHONE
+                // Phone
                 TextFormField(
                   controller: phoneController,
-                  decoration: InputDecoration(
-                    // labelText: 'Username',
-                    focusedBorder: InputBorder.none,
-                    hintText: 'phone',
-                    filled: true,
-                    fillColor: const Color.fromARGB(235, 237, 238, 238),
-
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: Colors.white54,
-                        width: 1,
-                      ),
-                    ),
-
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 16,
-                    ),
-                    labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
-                  ),
+                  style: const TextStyle(color: Colors.white),
+                  decoration: darkInputDecoration('Phone'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "phone is required";
+                      return "Phone is required";
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 10),
 
-                // EMAIL
+                // Email
                 TextFormField(
                   controller: emailController,
-                  decoration: InputDecoration(
-                    focusedBorder: InputBorder.none,
-                    // labelText: 'Email',
-                    hintText: 'email',
-                    filled: true,
-                    fillColor: const Color.fromARGB(235, 237, 238, 238),
-
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: Colors.white54,
-                        width: 1,
-                      ),
-                    ),
-
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 16,
-                    ),
-                    labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
-                  ),
+                  style: const TextStyle(color: Colors.white),
+                  decoration: darkInputDecoration('Email'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Email is required";
@@ -186,38 +129,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 10),
 
-                // PASSWORD
+                // Password
                 TextFormField(
                   controller: passwordController,
                   obscureText: !isPasswordVisible,
-                  decoration: InputDecoration(
-                    focusedBorder: InputBorder.none,
-                    // labelText: 'Password',
-                    hintText: 'password',
-                    filled: true,
-                    fillColor: const Color.fromARGB(235, 237, 238, 238),
-
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(137, 211, 200, 200),
-                        width: 1,
-                      ),
-                    ),
-
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 16,
-                    ),
-                    labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 0, 0, 0),
-                    ),
+                  style: const TextStyle(color: Colors.white),
+                  decoration: darkInputDecoration('Password').copyWith(
                     suffixIcon: IconButton(
                       icon: Icon(
                         isPasswordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                       onPressed: () {
                         setState(() {
@@ -238,9 +161,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const SizedBox(height: 14),
 
-                // REGISTER BUTTON
+                // Register button
                 isLoading
-                    ? const CircularProgressIndicator()
+                    ? const CircularProgressIndicator(color: Colors.blue)
                     : SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -260,7 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                 const SizedBox(height: 10),
 
-                // LOGIN NAVIGATION
+                // Login navigation
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -278,6 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ],
                     ),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ],

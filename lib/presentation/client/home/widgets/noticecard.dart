@@ -14,47 +14,57 @@ class NoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? Colors.grey[850] : Colors.white, // Dark mode bg
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08), // midabka hooska
-              blurRadius: 10, // qoto dheer
-              spreadRadius: 5, // faafitaanka
-              offset: const Offset(0, 3), // jihada hooska
+              color: isDark
+                  ? Colors.black.withOpacity(0.3)
+                  : Colors.black.withOpacity(0.08),
+              blurRadius: 10,
+              spreadRadius: 3,
+              offset: const Offset(0, 3),
             ),
           ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Title iyo Date dhinaca bidix
+            // Title iyo Date
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    color: Colors.black87,
+                    color: isDark ? Colors.white : Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   date,
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isDark ? Colors.grey[400] : Colors.grey[700],
+                  ),
                 ),
               ],
             ),
-            // Icon dhinaca midig
-            const Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 18,
+              color: isDark ? Colors.grey[300] : Colors.grey,
+            ),
           ],
         ),
       ),

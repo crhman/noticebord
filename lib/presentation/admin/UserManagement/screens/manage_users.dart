@@ -3,7 +3,6 @@ import 'package:norticeboard/presentation/admin/UserManagement/services/user_man
 import 'package:norticeboard/presentation/admin/UserManagement/screens/add_user.dart';
 import 'package:norticeboard/presentation/admin/UserManagement/screens/edit_user.dart';
 import 'package:provider/provider.dart';
-// import 'package:norticeboard/presentation/admin/UserManagement/services/user_service.dart';
 
 class UserManagementPage extends StatefulWidget {
   const UserManagementPage({super.key});
@@ -24,21 +23,27 @@ class _UserManagementPageState extends State<UserManagementPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     var usersList = context.watch<UserManagementService>().usersList;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "User Management",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge!.color,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor:
+            Theme.of(context).appBarTheme.backgroundColor ??
+            Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).iconTheme.color),
       ),
       body: context.watch<UserManagementService>().isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               padding: const EdgeInsets.all(16),
               itemCount: usersList.length,
@@ -46,6 +51,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
                 final user = usersList[index];
 
                 return Card(
+                  color: isDark ? Colors.grey.shade800 : Colors.white,
                   margin: const EdgeInsets.only(bottom: 16),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -58,20 +64,29 @@ class _UserManagementPageState extends State<UserManagementPage> {
                       children: [
                         Text(
                           user.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           user.email,
-                          style: TextStyle(color: Colors.grey[600]),
+                          style: TextStyle(
+                            color: isDark ? Colors.grey[400] : Colors.grey[600],
+                            fontSize: 15,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           "Role: ${user.role}",
-                          style: const TextStyle(fontSize: 14),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Theme.of(
+                              context,
+                            ).textTheme.bodyMedium!.color,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         Row(
@@ -82,7 +97,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => EditUserPage(),
+                                    builder: (context) => const EditUserPage(),
                                   ),
                                 );
                               },
@@ -118,7 +133,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
             MaterialPageRoute(builder: (context) => const AddUserPage()),
           );
         },
-        backgroundColor: Colors.blue,
+        backgroundColor: isDark ? Colors.blueGrey.shade200 : Colors.blue,
         child: const Icon(Icons.add),
       ),
     );
