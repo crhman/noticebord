@@ -77,7 +77,7 @@ const id =  response.body["id"];
 
 export const getAllNotification = async (req, res) => {
     try {
-        const notification = await Notification.find({});
+        const notification = await Notification.find({}).sort({createdAt: -1});
         res.status(200).json({      
             success: true,
             data: notification ,

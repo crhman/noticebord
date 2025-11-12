@@ -32,70 +32,78 @@ class _NotificationScreenState extends State<NotificationScreen> {
         ),
         centerTitle: true,
       ),
-      body: context.watch<NotificationService>().isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : !context.watch<NotificationService>().isLoading && notifications.isEmpty
-          ? const Center(
-              child: Text(
-                "No notifications found",
-                style: TextStyle(fontSize: 16, color: Colors.grey),
-              ),
-            )
-          : ListView.builder(
-              physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: notifications.length,
-              itemBuilder: (context, index) {
-                final notification = notifications[index];
+      body: RefreshIndicator(
+        onRefresh: () =>
+            context.read<NotificationService>().getAllNotifications(),
+        child: context.watch<NotificationService>().isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : !context.watch<NotificationService>().isLoading &&
+                  notifications.isEmpty
+            ? const Center(
+                child: Text(
+                  "No notifications found",
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              )
+            : ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: notifications.length,
+                itemBuilder: (context, index) {
+                  final notification = notifications[index];
 
-                return Card(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.notifications_active,
-                      color: Colors.blueAccent,
+                  return Card(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
                     ),
-                    title: Text(
-                      notification.title ?? 'No title',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ListTile(
+                      leading: const Icon(
+                        Icons.notifications_active,
+                        color: Colors.blueAccent,
                       ),
-                    ),
-                    subtitle: Text(
-                      notification.message ?? 'No message',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                    trailing: Text(
-                      formatDate(notification.createdAt.toString() ?? ""),
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                    onTap: () {
-                      // Navigation to detail page
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NotificationDetailPage(
-                            title: notification.title ?? 'No title',
-                            message: notification.message ?? 'No message',
-                            date: formatDate(
-                              notification.createdAt.toString() ?? "",
+                      title: Text(
+                        notification.title ?? 'No title',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      subtitle: Text(
+                        notification.message ?? 'No message',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 14),
+                      ),
+                      trailing: Text(
+                        formatDate(notification.createdAt.toString() ?? ""),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      onTap: () {
+                        // Navigation to detail page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NotificationDetailPage(
+                              title: notification.title ?? 'No title',
+                              message: notification.message ?? 'No message',
+                              date: formatDate(
+                                notification.createdAt.toString() ?? "",
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+      ),
     );
   }
 }
