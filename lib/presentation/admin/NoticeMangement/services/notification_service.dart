@@ -41,6 +41,7 @@ class NotificationService with ChangeNotifier {
   // 📋 Fetch all notifications
   Future<void> getAllNotifications() async {
     try {
+      isLoading = true;
       final response = await http.get(
         Uri.parse('$baseUrl/api/notification/getAll_notification'),
         headers: {'Content-Type': 'application/json'},
@@ -52,15 +53,16 @@ class NotificationService with ChangeNotifier {
             .map((item) => NotificationModel.fromJson(item))
             .toList();
 
-        isLoading = false;
         notifyListeners();
       } else {
-        isLoading = false;
         print('Failed to fetch notices: ${response.body}');
       }
       print(notifications.length);
     } catch (e) {
       print("⚠️ Error fetching notifications: $e");
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 }

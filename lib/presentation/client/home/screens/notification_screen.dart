@@ -34,7 +34,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
       ),
       body: context.watch<NotificationService>().isLoading
           ? const Center(child: CircularProgressIndicator())
-          : notifications.isEmpty
+          : !context.watch<NotificationService>().isLoading && notifications.isEmpty
           ? const Center(
               child: Text(
                 "No notifications found",
@@ -117,55 +117,53 @@ class NotificationDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Notice Detail"),
+        title: Text("Notification Detail"),
         centerTitle: true,
         // backgroundColor: Colors.white,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Expanded(
-          child: SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.15),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+        child: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.15),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+              border: Border.all(color: Colors.grey.shade200),
+            ),
+            child: Column(
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
-                ],
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  Text(
-                    date,
-                    style: const TextStyle(fontSize: 14, color: Colors.grey),
-                  ),
-                  const Divider(height: 30, thickness: 1),
+                ),
+                Text(
+                  date,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+                const Divider(height: 30, thickness: 1),
 
-                  Text(
-                    message,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      height: 1.6,
-                      color: Colors.black87,
-                    ),
+                Text(
+                  message,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    height: 1.6,
+                    color: Colors.black87,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
