@@ -69,7 +69,7 @@ export const deleteNotice = async (req, res) => {
 
 export const getNotices = async (req, res) => {
   try {
-    const notices = await noticeModel.find();
+    const notices = await noticeModel.find({}).sort({createdAt: -1});
 
     res.status(200).json({
       success: true,

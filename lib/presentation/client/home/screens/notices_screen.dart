@@ -23,12 +23,61 @@ class _NoticesScreenState extends State<NoticesScreen> {
     }
   }
 
+  String searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
     var notices = context.watch<NoticeService>().noticeList;
+    var filteredNotices = notices.where((notice) {
+      return notice.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
+          notice.description.toLowerCase().contains(searchQuery.toLowerCase());
+    }).toList();
+
     return Scaffold(
-      // backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.filter_list, color: Colors.blueAccent),
+          onPressed: () {
+            // Marka filter la taabto (tusaale ahaan, future filter options)
+            showModalBottomSheet(
+              context: context,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              builder: (context) => Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      "Filter Options",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ListTile(
+                      leading: const Icon(Icons.new_releases_outlined),
+                      title: const Text("Newest first"),
+                      onTap: () {
+                        // Future: sorting/filtering logic
+                        Navigator.pop(context);
+                      },
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.access_time),
+                      title: const Text("Oldest first"),
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
         title: const Text(
           "Notices",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -41,7 +90,6 @@ class _NoticesScreenState extends State<NoticesScreen> {
               color: Colors.blueAccent,
             ),
             onPressed: () {
-              // Marka icon la taabto
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -52,26 +100,61 @@ class _NoticesScreenState extends State<NoticesScreen> {
           ),
         ],
       ),
-      body: context.watch<NoticeService>().isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: notices.length,
-              itemBuilder: (context, index) {
-                final notice = notices[index];
-                return NoticeCard(
-                  title: notice.title,
-                  date: formatDate(notice.createdAt.toString() ?? ""),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NoticeDetailPage(notice: notice),
-                      ),
-                    );
-                  },
-                );
+      body: Column(
+        children: [
+          // 🔍 Search field
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Search notices...",
+                prefixIcon: const Icon(Icons.search, color: Colors.blueAccent),
+                filled: true,
+                fillColor: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.grey[900]
+                    : Colors.grey[200],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value;
+                });
               },
             ),
+          ),
+
+          // 📋 List of notices
+          Expanded(
+            child: context.watch<NoticeService>().isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : filteredNotices.isEmpty
+                ? const Center(child: Text("No notices found"))
+                : ListView.builder(
+                    itemCount: filteredNotices.length,
+                    itemBuilder: (context, index) {
+                      final notice = filteredNotices[index];
+                      return NoticeCard(
+                        title: notice.title,
+                        message: notice.description,
+                        date: formatDate(notice.createdAt.toString() ?? ""),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  NoticeDetailPage(notice: notice),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+          ),
+        ],
+      ),
     );
   }
 }

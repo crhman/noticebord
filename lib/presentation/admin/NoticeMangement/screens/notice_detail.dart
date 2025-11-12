@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:norticeboard/model/notice_model.dart';
-import 'package:norticeboard/presentation/client/home/screens/home_sceen.dart';
 
 class NoticeDetailPage extends StatelessWidget {
   final Notice notice;
@@ -9,16 +8,25 @@ class NoticeDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Notice Detail",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          "Manage Notices",
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge!.color,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        centerTitle: true,
-        backgroundColor: const Color(0xFF1E1E1E),
+        backgroundColor:
+            Theme.of(context).appBarTheme.backgroundColor ??
+            Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
       ),
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: isDarkMode
+          ? const Color(0xFF121212)
+          : Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -33,16 +41,20 @@ class NoticeDetailPage extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E1E1E),
+                    color: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
                     borderRadius: BorderRadius.circular(18),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withOpacity(0.1),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
                     ],
-                    border: Border.all(color: Colors.grey.shade800),
+                    border: Border.all(
+                      color: isDarkMode
+                          ? Colors.grey.shade800
+                          : Colors.grey.shade300,
+                    ),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,10 +62,10 @@ class NoticeDetailPage extends StatelessWidget {
                       // Title
                       Text(
                         notice.title,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: isDarkMode ? Colors.white : Colors.black,
                         ),
                       ),
                       const SizedBox(height: 6),
@@ -61,24 +73,28 @@ class NoticeDetailPage extends StatelessWidget {
                       // Date
                       Text(
                         notice.createdAt.toLocal().toString().split(' ')[0],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 14,
-                          color: Colors.grey,
+                          color: isDarkMode
+                              ? Colors.grey
+                              : Colors.grey.shade700,
                         ),
                       ),
-                      const Divider(
+                      Divider(
                         height: 30,
                         thickness: 1,
-                        color: Colors.grey,
+                        color: isDarkMode ? Colors.grey.shade700 : Colors.grey,
                       ),
 
                       // Description
                       Text(
                         notice.description,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           height: 1.6,
-                          color: Colors.white70,
+                          color: isDarkMode
+                              ? Colors.white70
+                              : Colors.black.withOpacity(0.8),
                         ),
                       ),
                     ],

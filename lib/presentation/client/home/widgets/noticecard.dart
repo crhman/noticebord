@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class NoticeCard extends StatelessWidget {
   final String title;
   final String date;
+  final String message;
   final VoidCallback onTap;
 
   const NoticeCard({
     super.key,
     required this.title,
     required this.date,
+    required this.message,
     required this.onTap,
   });
 
@@ -19,51 +21,70 @@ class NoticeCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isDark ? Colors.grey[850] : Colors.white, // Dark mode bg
-          borderRadius: BorderRadius.circular(15),
+          color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+          borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
               color: isDark
                   ? Colors.black.withOpacity(0.3)
                   : Colors.black.withOpacity(0.08),
-              blurRadius: 10,
-              spreadRadius: 3,
-              offset: const Offset(0, 3),
+              blurRadius: 8,
+              spreadRadius: 2,
+              offset: const Offset(0, 2),
             ),
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title iyo Date
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: isDark ? Colors.white : Colors.black87,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Title
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      color: isDark ? Colors.white : Colors.black87,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  date,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: isDark ? Colors.grey[400] : Colors.grey[700],
+                  const SizedBox(height: 6),
+
+                  // Message (kooban)
+                  Text(
+                    message,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16,
+                      height: 1.4,
+                      color: isDark ? Colors.white70 : Colors.grey.shade800,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8),
+
+                  // Date
+                  Text(
+                    date,
+                    style: TextStyle(
+                      fontSize: 12.5,
+                      color: isDark ? Colors.grey[400] : Colors.grey[700],
+                    ),
+                  ),
+                ],
+              ),
             ),
+
+            const SizedBox(width: 10),
             Icon(
-              Icons.arrow_forward_ios,
-              size: 18,
-              color: isDark ? Colors.grey[300] : Colors.grey,
+              Icons.arrow_forward_ios_rounded,
+              size: 16,
+              color: isDark ? Colors.grey[400] : Colors.grey,
             ),
           ],
         ),
